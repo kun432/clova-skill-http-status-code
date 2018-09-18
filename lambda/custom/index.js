@@ -1,8 +1,8 @@
 const clova = require('@line/clova-cek-sdk-nodejs');
 
 const skillName = 'HTTPステータス検索';
-const promptText = '三桁のHTTPステータスコードを言ってください。';
-const promptText2 = 'もう一度言っていただけますか？';
+const promptText = '３桁のHTTPステータスコードを言ってください。';
+const sorryPromptText = 'すいません、ただしく聞き取れませんでした。もう一度言っていただけますか？';
 const httpStatusCodes = require('./httpStatusCodes');
 
 exports.handler = clova.Client
@@ -10,13 +10,13 @@ exports.handler = clova.Client
   .onLaunchRequest(async responseHelper => {
     console.log("LaunchRequest called");
     responseHelper.setSessionAttributes({})
-    const speechText = `${skillName}です。`;
+    let speechText = `${skillName}です。`;
 
     responseHelper.setSimpleSpeech(
-      Clova.SpeechBuilder.createSpeechText(speechText)
+      clova.SpeechBuilder.createSpeechText(speechText + promptText)
     );
     responseHelper.setSimpleSpeech(
-      Clova.SpeechBuilder.createSpeechText(promptText), true
+      clova.SpeechBuilder.createSpeechText(promptText), true
     );
   })
   .onIntentRequest(async responseHelper => {
@@ -24,57 +24,84 @@ exports.handler = clova.Client
     const sessionId = responseHelper.getSessionId();
 
     switch (intent) {
-      case 'StatusCodeIntent':
+      case 'HttpStatusCodeIntent': {
         console.log("StatusCodeIntent called");
-        const statusCodeSlot = responseHelper.getSlot('statusCode');
-
-        if (statusCodeSlot && statusCodeSlot.value) {
-          const codeValue = statusCodeSlot.value;
-          console.log(`codeValue=${codeValue}`);
-          
-          let speechText = `ステータスコード${codeValue}を受け取りました。処理を終了します。`;
+        const slots = responseHelper.getSlots();
+        console.log('slots:' + JSON.stringify(slots));
+        // スロット名がおかしい
+        if (!('statusCode' in slots)) {
+          console.log("statusCode not found in slots.");
           responseHelper.setSimpleSpeech(
-            Clova.SpeechBuilder.createSpeechText(speechText)
-          );
-          endSession();
-        } else {
-          const speechText = 'すいません、ただしく聞き取れませんでした。もう一度言っていただけますか？';
-          responseHelper.setSimpleSpeech(
-            Clova.SpeechBuilder.createSpeechText(speechText)
+            clova.SpeechBuilder.createSpeechText(sorryPromptText)
           );
           responseHelper.setSimpleSpeech(
-            Clova.SpeechBuilder.createSpeechText(speechText), true
+            clova.SpeechBuilder.createSpeechText(sorryPromptText), true
           );
+          break;
         }
+        // スロットに何も入っていない
+        if (slots.statusCode === null) {
+          console.log("statusCode is null.");
+          responseHelper.setSimpleSpeech(
+            clova.SpeechBuilder.createSpeechText(sorryPromptText)
+          );
+          responseHelper.setSimpleSpeech(
+            clova.SpeechBuilder.createSpeechText(sorryPromptText), true
+          );
+          break;
+        }
+        // スロットを正しく受け取った
+        const code = slots.statusCode;
+        console.log(`code=${code}`);
+
+        // httpStatusCodesオブジェクトを走査する
+        let speechText;
+        
+        if (!(code in httpStatusCodes)) {
+          speechText = `ステータスコード${code}は登録されていません。`;
+        } else {
+          speechText = `ステータスコード${code}ですね。ステータスコード${code}は、${httpStatusCodes[code].speechName}、です。`;
+          if (httpStatusCodes[code].speechDesc !== undefined) {
+            speechText += httpStatusCodes[code].speechDesc;
+          } else {
+            speechText += httpStatusCodes[code].Desc;
+          }
+        }
+        responseHelper.setSimpleSpeech(
+          clova.SpeechBuilder.createSpeechText(speechText)
+        );
+        responseHelper.endSession();
         break;
-      case 'Clova.GuideIntent':
+      }
+      case 'Clova.GuideIntent': {
         console.log("ClovaGuideIntent called");
-        const speechText = 'このスキルでは、三桁のHTTPステータスコードを言うと、ステータスコードの意味を教えてくれます。例えば、「ステータスコード200を教えて」「404の意味を調べて」と言ってください。また、単に「302」とステータスコードを言うだけでも構いません。';
+        let speechText = 'このスキルでは、３桁のHTTPステータスコードを言うと、ステータスコードの意味を教えてくれます。例えば、「ステータスコード200を教えて」「404の意味を調べて」と言ってください。また、単に「302」とステータスコードを言うだけでも構いません。';
 
         responseHelper.setSimpleSpeech(
-          Clova.SpeechBuilder.createSpeechText(speechText + promptText)
+          clova.SpeechBuilder.createSpeechText(speechText + promptText)
         );
         responseHelper.setSimpleSpeech(
-          Clova.SpeechBuilder.createSpeechText(promptText), true
+          clova.SpeechBuilder.createSpeechText(promptText), true
         );
         break;
-      case 'Clova.CancelIntent':
+      }
+      case 'Clova.CancelIntent': {
         console.log("Clova.CancelIntent called");
-        const speechText = 'ご利用ありがとうございました。';
         responseHelper.setSimpleSpeech(
-          Clova.SpeechBuilder.createSpeechText(speechText)
+          clova.SpeechBuilder.createSpeechText('ご利用ありがとうございました。')
         );
-        endSession();
+        responseHelper.endSession();
         break;
-      default:
+      }
+      default: {
         console.log("falllback called");
-        const speechText = 'すいません、ただしく聞き取れませんでした。もう一度言っていただけますか？';
         responseHelper.setSimpleSpeech(
-          Clova.SpeechBuilder.createSpeechText(speechText)
+          clova.SpeechBuilder.createSpeechText(sorryPromptText)
         );
         responseHelper.setSimpleSpeech(
-          Clova.SpeechBuilder.createSpeechText(speechText), true
+          clova.SpeechBuilder.createSpeechText(sorryPromptText), true
         );
+      }
     }
   })
   .onSessionEndedRequest(responseHelper => {
