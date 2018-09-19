@@ -5,7 +5,7 @@ const promptText = 'さん桁のHTTPステータスコードを言ってくだ�
 const sorryPromptText = 'すいません、ただしく聞き取れませんでした。もう一度言っていただけますか？';
 const httpStatusCodes = require('./httpStatusCodes');
 
-exports.handler = clova.Client
+const clovaSkillHandler = clova.Client
   .configureSkill()
   .onLaunchRequest(async responseHelper => {
     console.log("LaunchRequest called");
@@ -109,4 +109,37 @@ exports.handler = clova.Client
       // Do something on session end
       console.log("SessionEndRequest called");
   })
-  .lambda()
+
+exports.handler = async (event, content) => {
+
+  const signature = event.headers.signaturecek || event.headers.SignatureCEK;
+  const applicationId = process.env["applicationId"];
+  const requestBody = event.body;
+  // ヘッダーとスキルのExtensionIdとリクエストボディで検証
+  await clova.verifier(signature, applicationId, requestBody);
+
+  // 「Lambdaプロキシの結合」を有効にするとCEKからのJSONの中身は「event.body」で文字列で取得できる。
+  var ctx = new clova.Context(JSON.parse(event.body));
+  const requestType = ctx.requestObject.request.type;
+  const requestHandler = clovaSkillHandler.config.requestHandlers[requestType];
+
+  if (requestHandler) {
+    await requestHandler.call(ctx, ctx);
+
+    console.log("--- responseObject ---");
+    console.log(ctx.responseObject);
+    console.log("--- responseObject end ---");
+
+    //　CEKに返すレスポンス
+    const response =  {
+        "isBase64Encoded": false,
+        "statusCode": 200,
+        "headers": {},
+        "body": JSON.stringify(ctx.responseObject),
+    }
+    console.log(response);
+    return response;
+  } else {
+    throw new Error(`Unable to find requestHandler for '${requestType}'`);
+  }
+}
