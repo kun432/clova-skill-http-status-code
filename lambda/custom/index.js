@@ -1,7 +1,7 @@
 const clova = require('@line/clova-cek-sdk-nodejs');
 
 const skillName = 'HTTPステータス検索';
-const promptText = '３桁のHTTPステータスコードを言ってください。';
+const promptText = 'さん桁のHTTPステータスコードを言ってください。';
 const sorryPromptText = 'すいません、ただしく聞き取れませんでした。もう一度言っていただけますか？';
 const httpStatusCodes = require('./httpStatusCodes');
 
@@ -75,7 +75,7 @@ exports.handler = clova.Client
       }
       case 'Clova.GuideIntent': {
         console.log("ClovaGuideIntent called");
-        let speechText = 'このスキルでは、３桁のHTTPステータスコードを言うと、ステータスコードの意味を教えてくれます。例えば、「ステータスコード200を教えて」「404の意味を調べて」と言ってください。また、単に「302」とステータスコードを言うだけでも構いません。';
+        let speechText = 'このスキルでは、さん桁のHTTPステータスコードを言うと、ステータスコードの意味を教えてくれます。例えば、「ステータスコード200を教えて」「404の意味を調べて」と言ってください。また、単に「302」とステータスコードを言うだけでも構いません。';
 
         responseHelper.setSimpleSpeech(
           clova.SpeechBuilder.createSpeechText(speechText + promptText)
