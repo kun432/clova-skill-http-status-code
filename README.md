@@ -49,6 +49,7 @@ $ cd clova-skill-http-status-code
 
 ```sh
 $ cd lambda/custom
+$ npm install
 $ zip -r ../custom.zip *
 ```
 
