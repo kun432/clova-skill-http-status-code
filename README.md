@@ -4,22 +4,23 @@
 
 Clovaスキル「HTTPステータス検索」のリポジトリです
 
-![アイコン](/icon-clova-skill-http-status-code.jpg)
-
 ### スキルについて
 
-- スキルを利用するには、 Clovaアプリから有効にしてください。
-- 「ねぇClova、HTTPステータス検索を開いて」で起動し、その後、「ステータスコード200を教えて」というと、ステータスコードの意味を教えてくれます。
+詳細は以下をご覧ください
 
-[![Youtube動画はこちら](http://img.youtube.com/vi/pkgNYGQvqj4/0.jpg)](http://www.youtube.com/watch?v=pkgNYGQvqj4)
+https://kun432.github.io/works/clova-skill-http-status-search/
+
+### 必要なもの
+
+- Clova
+- LINEアカウント
+- AWSアカウント
+- AWS Lambda
+- AWS API Gateway
 
 ### 使い方
 
 詳細は割愛。手順未検証ですので、不備あればissueまで。
-
-#### 0. 概要
-
-![構成](/design-clova-skill-http-status-code.png)
 
 #### 1. レポジトリをclone
 
@@ -29,7 +30,6 @@ $ cd clova-skill-http-status-code
 ```
 
 #### 2. Clovaスキルの設定
-
 
 - Clova Developer Centerでスキルを作成
   - 「タイプ」は「カスタム」
