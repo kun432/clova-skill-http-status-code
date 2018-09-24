@@ -4,7 +4,7 @@
 
 Clovaスキル「HTTPステータス検索」
 
-<img src="/img/717OwWXjBKL._SL210_QL95_BG0,0,0,0_FMpng_.png">
+<img src="/img/icon-clova-skill-http-status-code.jpg">
 
 ### スキルについて
 
