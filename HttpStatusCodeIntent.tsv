@@ -1,0 +1,29 @@
+[INTENT SLOT]
+statusCode	CLOVA.NUMBER
+
+[INTENT EXPRESSION]
+<statusCode>500</statusCode>
+ステータスコード<statusCode>404</statusCode>
+ステータスコード<statusCode>400</statusCode>を教えて
+<statusCode>307</statusCode>を教えて
+<statusCode>306</statusCode>の意味を教えて
+ステータスコード<statusCode>305</statusCode>の意味を教えて
+ステータスコード<statusCode>304</statusCode>を調べて
+<statusCode>303</statusCode>を調べて
+<statusCode>302</statusCode>の意味を調べて
+ステータスコード<statusCode>301</statusCode>の意味を調べて
+<statusCode>226</statusCode>は？
+ステータスコード<statusCode>300</statusCode>は？
+<statusCode>208</statusCode>の意味は?
+ステータスコード<statusCode>207</statusCode>の意味は？
+<statusCode>206</statusCode>はなに？
+ステータスコード<statusCode>205</statusCode>はなに？
+<statusCode>204</statusCode>の意味はなに？
+ステータスコード<statusCode>203</statusCode>の意味はなに？
+<statusCode>103</statusCode>を教えてくれる？
+ステータスコード<statusCode>102</statusCode>を教えてくれる？
+ステータスコード<statusCode>101</statusCode>の意味を教えてくれる？
+<statusCode>100</statusCode>ってなに？
+<statusCode>202</statusCode>ってどういう意味？
+ステータスコード<statusCode>201</statusCode>ってなに？
+ステータスコード<statusCode>200</statusCode>ってどういう意味
