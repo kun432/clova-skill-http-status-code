@@ -2,9 +2,9 @@
 
 ### はじめに
 
-Clovaスキル「HTTPステータス検索」
+Clovaスキル「HTTPステータス検索」のリポジトリです
 
-[アイコン](icon-clova-skill-http-status-code.jpg)
+![アイコン](/icon-clova-skill-http-status-code.jpg)
 
 ### スキルについて
 
@@ -19,7 +19,7 @@ Clovaスキル「HTTPステータス検索」
 
 #### 0. 概要
 
-[](design-clova-skill-http-status-code.png)
+![構成](/design-clova-skill-http-status-code.png)
 
 #### 1. レポジトリをclone
 
