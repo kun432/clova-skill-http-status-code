@@ -4,13 +4,13 @@
 
 Clovaスキル「HTTPステータス検索」
 
-<img src="/img/icon-clova-skill-http-status-code.jpg">
+[アイコン](icon-clova-skill-http-status-code.jpg)
 
 ### スキルについて
 
 - スキルを利用するには、 Clovaアプリから有効にしてください。
 - 「ねぇClova、HTTPステータス検索を開いて」で起動し、その後、「ステータスコード200を教えて」というと、ステータスコードの意味を教えてくれます。
-j
+
 [![Youtube動画はこちら](http://img.youtube.com/vi/pkgNYGQvqj4/0.jpg)](http://www.youtube.com/watch?v=pkgNYGQvqj4)
 
 ### 使い方
